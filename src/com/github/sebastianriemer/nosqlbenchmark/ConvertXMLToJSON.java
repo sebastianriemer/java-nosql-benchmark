@@ -16,6 +16,7 @@ public final class ConvertXMLToJSON {
 				.getResourceAsStream("resources/xmlfiles/" + fileName);
 		try {
 			String xml = IOUtils.toString(is);
+			is.close();
 			XMLSerializer xmlSerializer = new XMLSerializer();
 
 			JSON json = xmlSerializer.read(xml);
@@ -25,6 +26,9 @@ public final class ConvertXMLToJSON {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 
+		}
+		catch (NullPointerException ex) {
+			System.err.println("NullPointerException while trying to read file '" + fileName + "'");
 		}
 		return null;
 

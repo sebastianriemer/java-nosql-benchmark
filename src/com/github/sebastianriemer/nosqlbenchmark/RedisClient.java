@@ -92,8 +92,4 @@ public class RedisClient implements DBClient {
 		
 	}
 
-	@Override
-	public String getJSON(String key) { 
-		return get(key);
-	}
 }

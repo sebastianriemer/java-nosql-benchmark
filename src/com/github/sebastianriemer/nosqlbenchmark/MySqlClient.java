@@ -48,8 +48,12 @@ public class MySqlClient implements DBClient {
 		}
 	}
 
-	/* return the value of the given key */
+	/* return the value of the given key 
+	 * as for the mysql schema definition, there are two tables
+	 * where values may be stored, so both of them must be queried 
+	 * */
 	public String get(String key) {
+		int exCount = 0;
 		try {
 			PreparedStatement preparedStatement;
 			preparedStatement = connect
@@ -61,13 +65,31 @@ public class MySqlClient implements DBClient {
 				return resultSet.getString("value");
 			}
 			else {
-				logger.error("Error while getting value! No value returned!");
-				throw new SQLException();
+				//logger.error("Error while getting value! No value returned!");
+				exCount = exCount +1;
 			}			
 		} catch (SQLException e) {
-			logger.error("SQLException while trying to get value! "
-					+ e.getMessage());
+			logger.error("SQLException occured! "+ e.getMessage());
 		}
+		try {
+			PreparedStatement preparedStatement;
+			preparedStatement = connect
+					.prepareStatement("select value from test_smalltext WHERE keyid=?");
+			preparedStatement.setString(1, key);
+			ResultSet resultSet = preparedStatement.executeQuery();
+								
+			if (resultSet.next()) {
+				return resultSet.getString("value");
+			}
+			else {
+				//logger.error("Error while getting value! No value returned!");
+				exCount = exCount +1;
+			}			
+		} catch (SQLException e) {
+			logger.error("SQLException occured! "+ e.getMessage());			
+		}
+		if (exCount == 2)
+			logger.error("SQLException raised, no data found while trying to get value using keyId="+key+" !");
 		return null;
 	}
 
@@ -127,6 +149,16 @@ public class MySqlClient implements DBClient {
 	/* remove key */
 	@Override
 	public void delete(String key) {
+		int exCount = 0;
+		try {
+			PreparedStatement preparedStatement;
+			preparedStatement = connect
+					.prepareStatement("delete from test_dictionary where keyid = ?");
+			preparedStatement.setString(1, key);			
+			preparedStatement.executeUpdate();
+		} catch (SQLException e) {
+			exCount = exCount +1;
+		}
 		try {
 			PreparedStatement preparedStatement;
 			preparedStatement = connect
@@ -134,32 +166,12 @@ public class MySqlClient implements DBClient {
 			preparedStatement.setString(1, key);			
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
-			logger.error("SQLException while trying to delete value! "
-					+ e.getMessage());
+			exCount = exCount +1;			
+		}
+		if (exCount == 2) {
+			logger.error("SQLException while trying to delete value!");
 		}
 	}
-
-	@Override
-	public String getJSON(String key) {
-		try {
-			PreparedStatement preparedStatement;
-			preparedStatement = connect
-					.prepareStatement("select value from test_smalltext WHERE keyid=?");
-			preparedStatement.setString(1, key);
-			ResultSet resultSet = preparedStatement.executeQuery();
-								
-			if (resultSet.next()) {
-				return resultSet.getString("value");
-			}
-			else {
-				logger.error("Error while getting value! No value returned!");
-				throw new SQLException();
-			}			
-		} catch (SQLException e) {
-			logger.error("SQLException while trying to get value! "
-					+ e.getMessage());
-		}
-		return null;
-	}
+	
 
 }

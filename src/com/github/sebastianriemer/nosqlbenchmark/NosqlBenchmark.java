@@ -24,17 +24,15 @@ public class NosqlBenchmark {
 	public final static String TC_6 = "TestUpdateJSON";
 	public final static String TC_7 = "TestDeleteJSON";
 	public final static String TC_8 = "TestSelectJSON";
-	public final static String TC_9 = "TestConcurrentKeyValue";
+	public final static String TC_9 = "TestConcurrentTransactions";
 	public final static String TC_ALL = "All";
 
 	private final static String DB_REDIS = "Redis";
 	private final static String DB_MONGODB = "MongoDB";
 	private final static String DB_MYSQL = "MySql";
 
-	private final static int[] loadSizes = { 10/*, 100/*, 1000/*, 5000, 10000, 25000, 50000/* , 100000/*, 250000/*, 500000, 1000000 */};
-	private final static long[] runTimes = { 0/*, 0/*, 0/*, 0, 0, 0, 0/* , 0/*, 0 /*, 0,
-																 * 0
-																 */};
+	private final static int[] loadSizes = { 100, 1000, 5000/*, 10000, 25000, 50000, 100000, 250000, 500000, 1000000*/};
+	private final static long[] runTimes = { 0, 0, 0/*, 0, 0, 0, 0, 0, 0, 0*/};
 
 	private static ArrayList<String> testCases = new ArrayList<String>();
 	private static ArrayList<String> dbs = new ArrayList<String>();
@@ -126,22 +124,25 @@ public class NosqlBenchmark {
 	 * file
 	 */
 	private void startBenchmark() {
+		/*CassandraClient testClient = new CassandraClient();
+		testClient.firstTest();*/
+		/* Comment back in after testing cassandra !!!*/
 		int exceptionCount = 0;
 		ArrayList<TestCase> testCases = getTestCases();
 		for (TestCase testCase : testCases) {
 			for (int i = 0; i < loadSizes.length; i++) {
 				logger.info(String.format("Executing %s@%s with load=%d!",
 						testCase.getName(), dbName, loadSizes[i]));
-				try {					
+				/*try {*/					
 					runTimes[i] = execute(testCase, loadSizes[i]);
-				} catch (Exception ex) {
+				/*} catch (Exception ex) {
 					runTimes[i] = -1;
 					logger.warn(String
 							.format("The following exception occured during execution of %s@%s with load=%d!",
 									testCase.getName(), dbName, loadSizes[i]));
 					logger.error("Unfortunately for now, I don't know how to log the stack trace! :)", ex);			
 					exceptionCount++;
-				}
+				}*/
 			}
 			writeFile(testCase.getName());
 		}
@@ -183,13 +184,13 @@ public class NosqlBenchmark {
 		} else if (testCaseName.equals(TC_5)) {
 			testCases.add(new TestAppendJSON(getDbClient()));
 		} else if (testCaseName.equals(TC_6)) {
-			testCases.add(new TestAppendJSON(getDbClient()));
+			testCases.add(new TestUpdateJSON(getDbClient()));
 		} else if (testCaseName.equals(TC_7)) {
-			testCases.add(new TestAppendJSON(getDbClient()));
+			testCases.add(new TestDeleteJSON(getDbClient()));
 		} else if (testCaseName.equals(TC_8)) {
-			testCases.add(new TestAppendJSON(getDbClient()));
+			testCases.add(new TestSelectJSON(getDbClient()));
 		} else if (testCaseName.equals(TC_9)) {
-			testCases.add(new TestConcurrentKeyValue(new DBClientFactory(getDbClient())));
+			testCases.add(new TestConcurrentTransactions(new DBClientFactory(getDbClient())));
 		} else if (testCaseName.equals(TC_ALL)) {
 			testCases.add(new TestAppendKeyValue(getDbClient()));
 			testCases.add(new TestUpdateKeyValue(getDbClient()));
@@ -199,7 +200,7 @@ public class NosqlBenchmark {
 			testCases.add(new TestUpdateJSON(getDbClient()));
 			testCases.add(new TestDeleteJSON(getDbClient()));
 			testCases.add(new TestSelectJSON(getDbClient()));
-			testCases.add(new TestConcurrentKeyValue(new DBClientFactory(getDbClient())));
+			//testCases.add(new TestConcurrentTransactions(new DBClientFactory(getDbClient())));
 		} else {
 			usage();
 		}
@@ -209,18 +210,22 @@ public class NosqlBenchmark {
 
 	/* write runtimes for each loadSize of testCase into file */
 	private void writeFile(String testCaseName) {
-		try {
-			FileWriter outFile = new FileWriter("out/" + testCaseName + "_"
-					+ dbName + ".out");
-			PrintWriter out = new PrintWriter(outFile);
+		PrintWriter out = null;	
+		try {						
+			out = new PrintWriter(new FileWriter("out/" + testCaseName + "_" + dbName + ".out"));
 			out.println("#x y");
-
+			
 			for (int i = 0; i < loadSizes.length; i++) {
 				out.println(loadSizes[i] + " " + runTimes[i]);
 			}
-			out.close();
+			
 		} catch (IOException e) {
 			e.printStackTrace();
+		}
+		finally {
+		      if (out != null) {		        
+		        out.close();
+		      }
 		}
 	}
 

@@ -1,0 +1,24 @@
+#!/usr/bin/gnuplot
+reset
+set terminal png
+set output "../plots/TestConcurrentTransactions.png"
+set logscale x
+set logscale y
+set xlabel "session count"
+
+set ylabel "time in ms"
+
+set title "Benchmark - Concurrent Sessions"
+
+set key reverse Left outside
+set grid
+
+set style data linespoints
+
+set yrange [400:40000]
+set xrange [1:300]
+#set xtics ("" 10, "100" 100, "1000" 1000, "" 5000, "10000" 10000, "" 25000 , "" 50000, "1e+5" 100000, "" 250000, "" 500000, "1e+06" 1000000)
+
+plot "../out/TestConcurrentTransactions_Redis.out" using 1:2 title "Redis", \
+"../out/TestConcurrentTransactions_MongoDB.out" using 1:2 title "MongoDB", \
+"../out/TestConcurrentTransactions_MySql.out" using 1:2 title "Mysql";

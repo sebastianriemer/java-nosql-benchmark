@@ -11,8 +11,6 @@ interface DBClient {
 	
 	public String get(String key);
 	
-	public String getJSON(String key);
-	
 	public void cleanup();
 	
 	public void openConnection();

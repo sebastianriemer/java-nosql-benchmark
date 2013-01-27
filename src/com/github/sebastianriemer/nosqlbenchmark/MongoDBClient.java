@@ -123,9 +123,6 @@ public class MongoDBClient implements DBClient {
 		collection.remove(document); 				
 	}
 
-	@Override
-	public String getJSON(String key) {	
-		return get(key);
-	}
+
 
 }

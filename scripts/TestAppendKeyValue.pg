@@ -1,0 +1,24 @@
+#!/usr/bin/gnuplot
+reset
+set terminal png
+set output "../plots/TestAppendKeyValue.png"
+set logscale x
+set logscale y
+set xlabel "load size"
+
+set ylabel "time in ms"
+
+set title "Benchmark - Append Key/Value Pairs"
+
+set key reverse Left outside
+set grid
+
+set style data linespoints
+
+set yrange [10:1000000]
+set xrange [90:1200000]
+#set xtics ("" 10, "100" 100, "1000" 1000, "" 5000, "10000" 10000, "" 25000 , "" 50000, "1e+5" 100000, "" 250000, "" 500000, "1e+06" 1000000)
+
+plot "../out/TestAppendKeyValue_Redis.out" using 1:2 title "Redis", \
+"../out/TestAppendKeyValue_MongoDB.out" using 1:2 title "MongoDB", \
+"../out/TestAppendKeyValue_MySql.out" using 1:2 title "Mysql";
