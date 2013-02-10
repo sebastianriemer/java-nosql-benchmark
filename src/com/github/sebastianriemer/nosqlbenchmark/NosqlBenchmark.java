@@ -30,9 +30,10 @@ public class NosqlBenchmark {
 	private final static String DB_REDIS = "Redis";
 	private final static String DB_MONGODB = "MongoDB";
 	private final static String DB_MYSQL = "MySql";
+	private final static String DB_CASSANDRA = "Cassandra";
 
-	private final static int[] loadSizes = { 100, 1000, 5000/*, 10000, 25000, 50000, 100000, 250000, 500000, 1000000*/};
-	private final static long[] runTimes = { 0, 0, 0/*, 0, 0, 0, 0, 0, 0, 0*/};
+	private final static int[] loadSizes = {1,2,5,10,20,50,75,100,250 /*100, 1000, 5000, 10000, 25000, 50000, 100000, 250000, 500000, 1000000*/};
+	private final static long[] runTimes = {0,0,0,0,0,0,0,0,0 /*0, 0, 0, 0, 0, 0, 0, 0, 0, 0*/};
 
 	private static ArrayList<String> testCases = new ArrayList<String>();
 	private static ArrayList<String> dbs = new ArrayList<String>();
@@ -79,11 +80,12 @@ public class NosqlBenchmark {
 		testCases.add(TC_6);
 		testCases.add(TC_7);
 		testCases.add(TC_8);
-		testCases.add(TC_9);
+		testCases.add(TC_9);		
 
 		dbs.add(DB_REDIS);
 		dbs.add(DB_MONGODB);
 		dbs.add(DB_MYSQL);
+		dbs.add(DB_CASSANDRA);
 
 		PropertyConfigurator.configure("log4j.properties");
 	}
@@ -123,17 +125,20 @@ public class NosqlBenchmark {
 	 * map testcase, execute test for each loadSize, write execution times to
 	 * file
 	 */
-	private void startBenchmark() {
-		/*CassandraClient testClient = new CassandraClient();
-		testClient.firstTest();*/
-		/* Comment back in after testing cassandra !!!*/
+	private void startBenchmark() {		
 		int exceptionCount = 0;
+		
+		
+/*		DBClient testCassandraClient = getDbClient();
+		testCassandraClient.firstTest();
+*/		
+		
 		ArrayList<TestCase> testCases = getTestCases();
 		for (TestCase testCase : testCases) {
 			for (int i = 0; i < loadSizes.length; i++) {
 				logger.info(String.format("Executing %s@%s with load=%d!",
 						testCase.getName(), dbName, loadSizes[i]));
-				/*try {*/					
+				//try {				
 					runTimes[i] = execute(testCase, loadSizes[i]);
 				/*} catch (Exception ex) {
 					runTimes[i] = -1;
@@ -146,6 +151,7 @@ public class NosqlBenchmark {
 			}
 			writeFile(testCase.getName());
 		}
+		
 		if (exceptionCount > 0) {
 			logger.warn("There have been a total of " + String.valueOf(exceptionCount) + " exception(s). You better check them out!");
 		}
@@ -159,9 +165,10 @@ public class NosqlBenchmark {
 			dbClient = new RedisClient();
 		} else if (dbName.equals(DB_MONGODB)) {
 			dbClient = new MongoDBClient();
-
 		} else if (dbName.equals(DB_MYSQL)) {
 			dbClient = new MySqlClient();
+		} else if (dbName.equals(DB_CASSANDRA)) {
+			dbClient = new CassandraClient();
 		} else {
 			usage();
 		}
@@ -190,7 +197,7 @@ public class NosqlBenchmark {
 		} else if (testCaseName.equals(TC_8)) {
 			testCases.add(new TestSelectJSON(getDbClient()));
 		} else if (testCaseName.equals(TC_9)) {
-			testCases.add(new TestConcurrentTransactions(new DBClientFactory(getDbClient())));
+			testCases.add(new TestConcurrentTransactions(new DBClientFactory(getDbClient())));		
 		} else if (testCaseName.equals(TC_ALL)) {
 			testCases.add(new TestAppendKeyValue(getDbClient()));
 			testCases.add(new TestUpdateKeyValue(getDbClient()));

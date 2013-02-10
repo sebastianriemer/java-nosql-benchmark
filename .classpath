@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
+	<classpathentry kind="lib" path="/usr/lib/commons-pool-1.6/commons-pool-1.6.jar"/>
+	<classpathentry kind="lib" path="/usr/lib/jedis/jedis-2.1.0.jar"/>
+	<classpathentry kind="lib" path="/usr/lib/mongo/mongo-2.9.2.jar"/>
+	<classpathentry kind="lib" path="/home/marge/Downloads/mysql-connector-java-5.1.22/mysql-connector-java-5.1.22-bin.jar"/>
+	<classpathentry kind="lib" path="/home/marge/Downloads/json-lib-2.4-jdk15.jar"/>
+	<classpathentry kind="lib" path="/home/marge/Downloads/xom-1.2.8.jar"/>
+	<classpathentry kind="lib" path="/home/marge/Downloads/commons-lang-2.6/commons-lang-2.6.jar"/>
+	<classpathentry kind="lib" path="/home/marge/Downloads/commons-logging-1.1.1/commons-logging-1.1.1.jar"/>
+	<classpathentry kind="lib" path="/home/marge/Downloads/commons-beanutils-1.8.3/commons-beanutils-1.8.3.jar"/>
+	<classpathentry kind="lib" path="/home/marge/Downloads/commons-collections-3.2.1/commons-collections-3.2.1.jar"/>
+	<classpathentry kind="lib" path="/home/marge/Downloads/ezmorph-1.0.6.jar"/>
+	<classpathentry kind="lib" path="/home/marge/Downloads/commons-io-2.4/commons-io-2.4.jar"/>
+	<classpathentry kind="lib" path="/home/marge/Downloads/apache-log4j-1.2.17/log4j-1.2.17.jar"/>
+	<classpathentry kind="lib" path="/home/marge/Downloads/apache-cassandra-1.1.8/lib/apache-cassandra-1.1.8.jar"/>
+	<classpathentry kind="lib" path="/home/marge/Downloads/hector-core-1.1-2.jar"/>
+	<classpathentry kind="lib" path="/home/marge/Downloads/hector-core-1.1-2-javadoc.jar"/>
+	<classpathentry kind="lib" path="/home/marge/Downloads/apache-cassandra-1.1.8/lib/apache-cassandra-thrift-1.1.8.jar"/>
+	<classpathentry kind="lib" path="/home/marge/Downloads/apache-cassandra-1.1.8/lib/libthrift-0.7.0.jar"/>
+	<classpathentry kind="lib" path="/home/marge/Downloads/apache-cassandra-1.1.8/lib/log4j-1.2.16.jar"/>
+	<classpathentry kind="lib" path="/home/marge/Downloads/apache-cassandra-1.1.8/lib/slf4j-api-1.6.1.jar"/>
+	<classpathentry kind="lib" path="/home/marge/Downloads/apache-cassandra-1.1.8/lib/slf4j-log4j12-1.6.1.jar"/>
+	<classpathentry kind="lib" path="/home/marge/Downloads/apache-cassandra-1.1.8/lib/guava-r08.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

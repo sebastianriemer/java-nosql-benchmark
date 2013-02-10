@@ -55,8 +55,10 @@ public class TestUpdateJSON implements TestCase {
 		if (dbClient != null) {
 			dbClient.openConnection();
 			for (int i = 0; i < testJSONs.size(); i++) {				
-				/* simply use the reverted list for update, i.e. the same test array can be used */
-				dbClient.append(Integer.toString(i), testJSONs.get(testJSONs.size()-(i+1)));
+				/* simply use the reverted list for update, i.e. 
+				 * the same test array can be used */
+				dbClient.append(Integer.toString(i), 
+						testJSONs.get(testJSONs.size()-(i+1)));
 			}
 			dbClient.closeConnection();
 		} else {

@@ -21,4 +21,5 @@ set xrange [90:1200000]
 
 plot "../out/TestAppendKeyValue_Redis.out" using 1:2 title "Redis", \
 "../out/TestAppendKeyValue_MongoDB.out" using 1:2 title "MongoDB", \
-"../out/TestAppendKeyValue_MySql.out" using 1:2 title "Mysql";
+"../out/TestAppendKeyValue_MySql.out" using 1:2 title "Mysql", \
+"../out/TestAppendKeyValue_Cassandra.out" using 1:2 title "Cassandra";

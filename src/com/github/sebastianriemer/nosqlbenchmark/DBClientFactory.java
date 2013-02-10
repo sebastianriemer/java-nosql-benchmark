@@ -16,6 +16,8 @@ public class DBClientFactory {
 			return new MongoDBClient();
 		else if (dbClient instanceof MySqlClient)
 			return new MySqlClient();
+		else if (dbClient instanceof CassandraClient)
+			return new CassandraClient();
 		else
 			throw new UnknownDBClientTypeException("Unknown DBClient found in DBClientFactory!");
 	}

@@ -21,4 +21,5 @@ set xrange [90:1200000]
 
 plot "../out/TestUpdateJSON_Redis.out" using 1:2 title "Redis", \
 "../out/TestUpdateJSON_MongoDB.out" using 1:2 title "MongoDB", \
-"../out/TestUpdateJSON_MySql.out" using 1:2 title "Mysql";
+"../out/TestUpdateJSON_MySql.out" using 1:2 title "Mysql", \
+"../out/TestUpdateJSON_Cassandra.out" using 1:2 title "Cassandra";
